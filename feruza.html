@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuiz — Білім сайты</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        header {
+            background: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #4f46e5;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px 20px;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed
+            );
+
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            font-size: 19px;
+            line-height: 1.7;
+        }
+
+        .button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: #4f46e5;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        /* SECTIONS */
+
+        section {
+            padding: 70px 8%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        /* SUBJECTS */
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 280px;
+            padding: 30px;
+            background: white;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #4f46e5;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* TEST */
+
+        #test {
+            background: white;
+        }
+
+        .quiz {
+            max-width: 700px;
+            margin: auto;
+            padding: 35px;
+            background: #f8fafc;
+            border-radius: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .progress {
+            height: 10px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background: #4f46e5;
+            transition: 0.3s;
+        }
+
+        #questionNumber {
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        #question {
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        .answer {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .answer:hover {
+            border-color: #4f46e5;
+        }
+
+        .correct {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+        }
+
+        .wrong {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+        }
+
+        #nextButton {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* RESULT */
+
+        #result {
+            display: none;
+            text-align: center;
+        }
+
+        #score {
+            font-size: 60px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin: 20px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        /* PHONE */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .hero {
+                min-height: 500px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            section {
+                padding: 55px 20px;
+            }
+
+            .title {
+                font-size: 30px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .quiz {
+                padding: 22px;
+            }
+
+            #question {
+                font-size: 20px;
+            }
+
+            .answer {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- МЕНЮ -->
+
+<header>
+
+    <div class="logo">
+        📚 EduQuiz
+    </div>
+
+    <nav>
+        <a href="#home">Басты бет</a>
+        <a href="#subjects">Пәндер</a>
+        <a href="#test">Тест</a>
+    </nav>
+
+</header>
+
+
+<!-- БАСТЫ БЕТ -->
+
+<section class="hero" id="home">
+
+    <div>
+
+        <h1>
+            Біліміңді тексер! 🎓
+        </h1>
+
+        <p>
+            EduQuiz — оқушыларға арналған
+            заманауи онлайн білім платформасы.
+            Тест тапсырып, нәтижеңді бірден көр!
+        </p>
+
+        <button class="button" onclick="startTest()">
+            Тестті бастау 🚀
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ПӘНДЕР -->
+
+<section id="subjects">
+
+    <h2 class="title">
+        📚 Пәндер
+    </h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="icon">💻</div>
+
+            <h3>Информатика</h3>
+
+            <p>
+                Компьютер және бағдарламалау
+                бойынша білімді тексер.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">➗</div>
+
+            <h3>Математика</h3>
+
+            <p>
+                Математикалық есептер мен
+                логикалық тапсырмалар.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">🌍</div>
+
+            <h3>География</h3>
+
+            <p>
+                Қазақстан және әлем
+                географиясын тексер.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ТЕСТ -->
+
+<section id="test">
+
+    <h2 class="title">
+        📝 Информатика тесті
+    </h2>
+
+    <div class="quiz">
+
+        <div id="quiz">
+
+            <div class="progress">
+                <div id="progressBar"></div>
+            </div>
+
+            <p id="questionNumber"></p>
+
+            <h3 id="question"></h3>
+
+            <div id="answers"></div>
+
+            <button id="nextButton" onclick="nextQuestion()">
+                Келесі сұрақ →
+            </button>
+
+        </div>
+
+
+        <!-- НӘТИЖЕ -->
+
+        <div id="result">
+
+            <h2>
+                🎉 Тест аяқталды!
+            </h2>
+
+            <div id="score"></div>
+
+            <p id="resultText"></p>
+
+            <br>
+
+            <button id="nextButton" onclick="restartTest()">
+                Қайта тапсыру
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 EduQuiz | Білім — болашақтың негізі 📚
+    </p>
+
+</footer>
+
+
+<script>
+
+    const questions = [
+
+        {
+            question: "HTML не үшін қолданылады?",
+
+            answers: [
+                "Веб-беттің құрылымын жасау үшін",
+                "Компьютерді жөндеу үшін",
+                "Музыка тыңдау үшін",
+                "Антивирус жасау үшін"
+            ],
+
+            correct: 0
+        },
+
+        {
+            question: "CSS не үшін қолданылады?",
+
+            answers: [
+                "Деректер базасын жасау үшін",
+                "Веб-бетті безендіру үшін",
+                "Компьютерді өшіру үшін",
+                "Файлдарды жою үшін"
+            ],
+
+            correct: 1
+        },
+
+        {
+            question: "JavaScript қандай тіл?",
+
+            answers: [
+                "Бағдарламалау тілі",
+                "Операциялық жүйе",
+                "Браузер",
+                "Антивирус"
+            ],
+
+            correct: 0
+        },
+
+        {
+            question: "Python тілінде мәтін шығару командасы?",
+
+            answers: [
+                "write()",
+                "show()",
+                "print()",
+                "text()"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "Компьютердің негізгі есептеу құрылғысы?",
+
+            answers: [
+                "Монитор",
+                "Пернетақта",
+                "Процессор",
+                "Тышқан"
+            ],
+
+            correct: 2
+        }
+
+    ];
+
+
+    let currentQuestion = 0;
+
+    let score = 0;
+
+    let selected = false;
+
+
+    function startTest() {
+
+        document
+            .getElementById("test")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+        currentQuestion = 0;
+        score = 0;
+
+        document.getElementById("quiz")
+            .style.display = "block";
+
+        document.getElementById("result")
+            .style.display = "none";
+
+        showQuestion();
+    }
+
+
+    function showQuestion() {
+
+        selected = false;
+
+        const q = questions[currentQuestion];
+
+        document.getElementById("questionNumber")
+            .textContent =
+            "Сұрақ " +
+            (currentQuestion + 1) +
+            " / " +
+            questions.length;
+
+        document.getElementById("question")
+            .textContent = q.question;
+
+        const answers =
+            document.getElementById("answers");
+
+        answers.innerHTML = "";
+
+
+        q.answers.forEach((answer, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className = "answer";
+
+            button.textContent = answer;
+
+            button.onclick = function() {
+
+                selectAnswer(index, button);
+
+            };
+
+            answers.appendChild(button);
+
+        });
+
+
+        const progress =
+            (currentQuestion / questions.length) * 100;
+
+        document.getElementById("progressBar")
+            .style.width = progress + "%";
+    }
+
+
+    function selectAnswer(index, button) {
+
+        if (selected) return;
+
+        selected = true;
+
+        const correct =
+            questions[currentQuestion].correct;
+
+
+        if (index === correct) {
+
+            button.classList.add("correct");
+
+            score++;
+
+        } else {
+
+            button.classList.add("wrong");
+
+            const buttons =
+                document.querySelectorAll(".answer");
+
+            buttons[correct]
+                .classList.add("correct");
+        }
+    }
+
+
+    function nextQuestion() {
+
+        if (!selected) {
+
+            alert("Алдымен жауапты таңда!");
+
+            return;
+        }
+
+        currentQuestion++;
+
+
+        if (currentQuestion < questions.length) {
+
+            showQuestion();
+
+        } else {
+
+            finishTest();
+
+        }
+    }
+
+
+    function finishTest() {
+
+        document.getElementById("quiz")
+            .style.display = "none";
+
+        document.getElementById("result")
+            .style.display = "block";
+
+
+        const percent =
+            Math.round(
+                score / questions.length * 100
+            );
+
+
+        document.getElementById("score")
+            .textContent =
+            score +
+            " / " +
+            questions.length +
+            " (" +
+            percent +
+            "%)";
+
+
+        let text;
+
+
+        if (percent === 100) {
+
+            text =
+                "🏆 Керемет! Барлық сұраққа дұрыс жауап бердің!";
+
+        } else if (percent >= 80) {
+
+            text =
+                "👏 Өте жақсы нәтиже!";
+
+        } else if (percent >= 60) {
+
+            text =
+                "👍 Жақсы нәтиже!";
+
+        } else {
+
+            text =
+                "📚 Тағы да дайындалып, қайта тапсырып көр!";
+
+        }
+
+
+        document.getElementById("resultText")
+            .textContent = text;
+
+
+        document.getElementById("progressBar")
+            .style.width = "100%";
+    }
+
+
+    function restartTest() {
+
+        currentQuestion = 0;
+
+        score = 0;
+
+        document.getElementById("result")
+            .style.display = "none";
+
+        document.getElementById("quiz")
+            .style.display = "block";
+
+        showQuestion();
+    }
+
+
+    showQuestion();
+
+</script>
+
+</body>
+</html>
